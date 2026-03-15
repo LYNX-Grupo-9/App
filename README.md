@@ -1,6 +1,6 @@
 # TemisHub - Mobile App ⚖️
 
-Front-end mobile desenvolvido para o projeto **Lynx** (Grupo 9 - SPTech, 5ª ADS). O TemisHub é uma solução de LegalTech focada em agilizar o acesso à justiça, utilizando Inteligência Artificial para realizar a triagem inicial de casos jurídicos e conectar cidadãos a advogados especialistas.
+Front-end mobile desenvolvido para o projeto **Lynx**. O TemisHub é uma solução de LegalTech focada em agilizar o acesso à justiça, utilizando Inteligência Artificial para realizar a triagem inicial de casos jurídicos e conectar cidadãos a advogados especialistas.
 
 ## 🚀 Fluxo do Aplicativo
 O app contempla as 4 etapas principais da jornada do usuário:
