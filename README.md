@@ -20,3 +20,21 @@ O app contempla as 4 etapas principais da jornada do usuário:
 1. **Clone este repositório:**
    ```bash
    git clone [https://github.com/LYNX-Grupo-9/App.git](https://github.com/LYNX-Grupo-9/App.git)
+   
+   Entre no diretório do projeto:
+
+Bash
+cd App
+Instale as dependências:
+
+Bash
+npm install
+Inicie o servidor de desenvolvimento:
+
+Bash
+npx expo start
+Visualização:
+
+Baixe o app Expo Go na Play Store ou App Store.
+
+Escaneie o QR Code exibido no seu terminal.
