@@ -15,26 +15,12 @@ O app contempla as 4 etapas principais da jornada do usuário:
 - **React Navigation**: Gerenciamento de rotas e navegação em Stack.
 - **Lucide React Native**: Biblioteca de ícones vetoriais.
 
-## 📦 Como Rodar o Projeto
+### 🚀 Como Rodar
+1. `git clone https://github.com/LYNX-Grupo-9/App.git`
+2. `cd App`
+3. `npm install`
+4. `npx expo start`
 
-1. **Clone este repositório:**
-   ```bash
-   git clone [https://github.com/LYNX-Grupo-9/App.git](https://github.com/LYNX-Grupo-9/App.git)
-   
-   Entre no diretório do projeto:
+> **Dica:** Escaneie o QR Code no terminal usando o app **Expo Go** no seu celular.
 
-Bash
-cd App
-Instale as dependências:
-
-Bash
-npm install
-Inicie o servidor de desenvolvimento:
-
-Bash
-npx expo start
-Visualização:
-
-Baixe o app Expo Go na Play Store ou App Store.
-
-Escaneie o QR Code exibido no seu terminal.
+---
