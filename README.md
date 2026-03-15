@@ -1,50 +1,22 @@
-# Welcome to your Expo app 👋
+# TemisHub - Mobile App ⚖️
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Front-end mobile desenvolvido para o projeto **Lynx** (Grupo 9 - SPTech, 5ª ADS). O TemisHub é uma solução de LegalTech focada em agilizar o acesso à justiça, utilizando Inteligência Artificial para realizar a triagem inicial de casos jurídicos e conectar cidadãos a advogados especialistas.
 
-## Get started
+## 🚀 Fluxo do Aplicativo
+O app contempla as 4 etapas principais da jornada do usuário:
+1.  **Cadastro:** Registro de novos usuários na plataforma.
+2.  **Descrição do Caso:** Interface para detalhamento do problema jurídico e envio de documentos.
+3.  **Análise da IA:** Tela de processamento que simula a classificação automática do caso por área do Direito.
+4.  **Conexão:** Feed de advogados especialistas que demonstraram interesse no caso publicado.
 
-1. Install dependencies
+## 🛠️ Tecnologias Utilizadas
+- **React Native**: Framework para desenvolvimento cross-platform.
+- **Expo**: Plataforma para facilitação do workflow mobile.
+- **React Navigation**: Gerenciamento de rotas e navegação em Stack.
+- **Lucide React Native**: Biblioteca de ícones vetoriais.
 
+## 📦 Como Rodar o Projeto
+
+1. **Clone este repositório:**
    ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+   git clone [https://github.com/LYNX-Grupo-9/App.git](https://github.com/LYNX-Grupo-9/App.git)
