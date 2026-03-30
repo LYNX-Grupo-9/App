@@ -273,7 +273,7 @@ const TelaConversas = ({ navigation }) => (
           <View style={estilos.infoConversa}>
             <Text style={estilos.nomeAdvogado}>Dr. Carlos Mendes</Text>
             <Text style={estilos.subConversa}>Sobre: Rescisão trabalhista indevida</Text>
-            <Text style={estilos.previewMsg} numberOfLines={1}>Olá João, recebi sua documentação e tal e zaz...</Text>
+            <Text style={estilos.previewMsg} numberOfLines={1}>Olá João, recebi sua documentação e...</Text>
           </View>
           <View style={estilos.badge}><Text style={estilos.txtBadge}>2</Text></View>
         </TouchableOpacity>
@@ -487,7 +487,7 @@ const estilos = StyleSheet.create({
   txtBadge: { color: '#FFF', fontSize: 10, fontWeight: 'bold' },
   cabecalhoChat: { flexDirection: 'row', padding: 20, alignItems: 'center', borderBottomWidth: 1, borderColor: '#EEE' },
   nomeChat: { fontWeight: 'bold', color: CORES.navy, marginLeft: 15 },
-  balaoEsquerda: { backgroundColor: '#F0F2F5', padding: 15, borderRadius: 15, borderTopLeftRadius: 0, alignSelf: 'flex-start', maxWidth: '80%', marginBottom: 15 },
+  balaoEsquerda: { backgroundColor: '#F0F2F5', padding: 15, borderRadius: 15, borderTopLeftRadius: 0, alignSelf: 'flex-start', maxWidth: '80%', marginBottom: 15, marginTop: 15 },
   balaoDireita: { backgroundColor: CORES.petroleo, padding: 15, borderRadius: 15, borderTopRightRadius: 0, alignSelf: 'flex-end', maxWidth: '80%', marginBottom: 15 },
   hora: { fontSize: 10, color: '#AAA', textAlign: 'right', marginTop: 5 },
   horaBranca: { fontSize: 10, color: 'rgba(255,255,255,0.6)', textAlign: 'right', marginTop: 5 },
@@ -498,9 +498,8 @@ const estilos = StyleSheet.create({
   btnEnviarDoc: { backgroundColor: CORES.navy, padding: 12, borderRadius: 8, alignItems: 'center' },
   txtBranco: { color: '#FFF', fontWeight: 'bold' },
   txtCinza: { color: CORES.cinza, fontWeight: 'bold' },
-  txtCinzaPequeno: { color: CORES.cinza, fontSize: 12, backgroundColor: '#F0F2F5', paddingHorizontal: 10, paddingVertical: 2, borderRadius: 10 },
+  txtCinzaPequeno: { color: CORES.cinza, fontSize: 12, backgroundColor: '#F0F2F5', paddingHorizontal: 10, paddingVertical: 2, borderRadius: 10},
   txtPreto: { color: '#000' },
-  // Estilos Novas Telas
   cardAvaliacaoSimples: { flexDirection: 'row', alignItems: 'center', padding: 15, backgroundColor: '#FFF', borderRadius: 15, borderWidth: 1, borderColor: '#EEE', borderLeftWidth: 5, borderLeftColor: CORES.petroleo },
   txtNegritoCentro: { textAlign: 'center', fontWeight: 'bold', color: CORES.navy, fontSize: 16 },
   linhaEstrelasGrande: { flexDirection: 'row', justifyContent: 'center', gap: 10, marginVertical: 20 },
