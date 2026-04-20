@@ -1,33 +1,61 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
+import { Home, MessageSquare, User } from 'lucide-react-native';
+import { useContext } from 'react';
+import { View } from 'react-native';
+import { COLORS } from '../../src/constants/colors';
+import { ReadStatusContext } from '../ReadStatusContext';
+import { LAWYERS } from '../../src/constants/data';
+import { common } from '../../src/styles/common';
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+// Small unread badge shown on the Messages tab icon
+const UnreadBadge = () => {
+  const { readIds } = useContext(ReadStatusContext);
+  const count = LAWYERS.filter((l) => !readIds.includes(l.id)).length;
+  if (count === 0) return null;
+  return (
+    <View
+      style={[
+        common.badge,
+        { width: 16, height: 16, borderRadius: 8, position: 'absolute', top: -4, right: -8 },
+      ]}
+    />
+  );
+};
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+        tabBarActiveTintColor: COLORS.teal,
+        tabBarInactiveTintColor: COLORS.gray,
+        tabBarStyle: { borderTopColor: COLORS.grayBorder },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: 'Início',
+          tabBarIcon: ({ color, size }) => <Home color={color} size={size} />,
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="message"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Mensagens',
+          tabBarIcon: ({ color, size }) => (
+            <View>
+              <MessageSquare color={color} size={size} />
+              <UnreadBadge />
+            </View>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Perfil',
+          tabBarIcon: ({ color, size }) => <User color={color} size={size} />,
         }}
       />
     </Tabs>

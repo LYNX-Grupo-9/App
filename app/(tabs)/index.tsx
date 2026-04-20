@@ -1,98 +1,156 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  SafeAreaView,
+  FlatList,
+  StatusBar,
+  Dimensions,
+  StyleSheet,
+} from 'react-native';
+import { useRouter } from 'expo-router';
+import { Bell, Briefcase, ChevronRight } from 'lucide-react-native';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { COLORS } from '../../src/constants/colors';
+import { LAWYERS, USER_CASES } from '../../src/constants/data';
+import { common } from '../../src/styles/common';
+import CaseCarouselCard from '@/src/components/case-carousel/caseCarousel';
+import LawyerListItem from '@/src/components/lawyer-list-item/lawyerListItem';
+const { width } = Dimensions.get('window');
 
-export default function HomeScreen() {
+export default function HomeTab() {
+  const router = useRouter();
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <SafeAreaView style={common.container}>
+      <StatusBar barStyle="dark-content" />
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      <View style={common.headerHome}>
+        <Text style={common.logoText}>JurisMatch</Text>
+        <Bell color={COLORS.navy} size={24} />
+      </View>
+
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={common.padding}>
+          <Text style={common.greeting}>Olá, João</Text>
+          <Text style={common.subtitle}>
+            Confira o andamento dos seus casos hoje
+          </Text>
+
+          <View style={common.rowSpaced}>
+            <Text style={common.sectionTitle}>Meus Casos</Text>
+            <TouchableOpacity style={common.btnNewCase}>
+              <Text style={common.btnNewCaseText}>+ Novo caso</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <FlatList
+          data={USER_CASES}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.carousel}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => {
+            const lawyers = LAWYERS.filter((l) =>
+              item.interestedLawyerIds.includes(l.id)
+            );
+
+            return (
+              <CaseCarouselCard
+                title={item.title}
+                area={item.area}
+                status={item.status}
+                lawyers={lawyers}
+                onPress={() =>
+                  router.push({
+                    pathname: '/case-detail',
+                    params: { caseId: item.id },
+                  })
+                }
+              />
+            );
+          }}
+        />
+
+        <View style={common.padding}>
+          <Text style={common.sectionTitle}>Advogados interessados</Text>
+          <Text style={common.subtitle}>
+            Advogados que desejam falar com você
+          </Text>
+
+          {LAWYERS.map((lawyer) => (
+            <LawyerListItem
+              key={lawyer.id}
+              id={lawyer.id}
+              name={lawyer.name}
+              area={lawyer.area}
+              initials={lawyer.initials}
+              avatarColor={lawyer.avatarColor}
+            />
+          ))}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  card: {
+    backgroundColor: COLORS.white,
+    width: width * 0.75,
+    marginRight: 15,
+    padding: 20,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: COLORS.grayBorder,
+    borderLeftWidth: 5,
+    borderLeftColor: COLORS.teal,
+  },
+  cardTitle: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: COLORS.navy,
+    marginVertical: 15,
+  },
+  avatarMini: {
+    // apenas separação para manter consistência
+  },
+  lawyerCount: {
+    fontSize: 10,
+    color: COLORS.gray,
+    marginLeft: 10,
+  },
+  carousel: {
+    paddingLeft: 20,
+    paddingRight: 10,
+  },
+  lawyerItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderColor: '#F5F5F5',
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  lawyerInfo: {
+    flex: 1,
+    marginLeft: 15,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  lawyerName: {
+    fontWeight: 'bold',
+    color: COLORS.navy,
+    fontSize: 16,
+  },
+  lawyerArea: {
+    fontSize: 12,
+    color: COLORS.teal,
+    fontWeight: 'bold',
+  },
+  lawyerCase: {
+    fontSize: 12,
+    color: COLORS.gray,
+    marginLeft: 5,
   },
 });

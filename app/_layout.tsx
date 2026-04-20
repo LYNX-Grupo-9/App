@@ -1,24 +1,21 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+import { useReadStatus } from '../src/hooks/useReadStatus';
+import { ReadStatusContext } from './ReadStatusContext';
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const { readIds, markAsRead, isRead } = useReadStatus();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+    <ReadStatusContext.Provider value={{ readIds, markAsRead, isRead }}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="case-detail" />
+        <Stack.Screen name="lawyer-profile" />
+        <Stack.Screen name="chat" />
+        <Stack.Screen name="rate" />
+        <Stack.Screen name="success" />
+        <Stack.Screen name="my-cases" />
       </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    </ReadStatusContext.Provider>
   );
 }
