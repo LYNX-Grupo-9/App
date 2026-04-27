@@ -41,7 +41,6 @@ export default function ConversationItem({
       onPress={handlePress}
       activeOpacity={0.8}
     >
-      {/* Avatar */}
       <View>
         <View
           style={[
@@ -57,7 +56,6 @@ export default function ConversationItem({
         {showOnline && <View style={common.onlineIndicator} />}
       </View>
 
-      {/* Info */}
       <View style={styles.info}>
         <View style={styles.header}>
           <Text style={styles.name}>{lawyer.name}</Text>
@@ -71,10 +69,6 @@ export default function ConversationItem({
             {preview?.time}
           </Text>
         </View>
-
-        <Text style={styles.case} numberOfLines={1}>
-          📁 {preview?.caseTitle}
-        </Text>
 
         <Text
           style={[
