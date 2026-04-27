@@ -18,6 +18,7 @@ type Props = {
   area: string;
   initials: string;
   avatarColor: string;
+  caseId?: string;
   description?: string;
   onPress?: () => void;
   showChevron?: boolean;
@@ -29,7 +30,8 @@ export default function LawyerListItem({
   area,
   initials,
   avatarColor,
-  description = 'Rescisão trabalhista indevida',
+  caseId,
+  description,
   onPress,
   showChevron = true,
 }: Props) {
@@ -37,10 +39,13 @@ export default function LawyerListItem({
 
   const handlePress = () => {
     if (onPress) return onPress();
-
+  
     router.push({
       pathname: '/lawyer-profile',
-      params: { lawyerId: id },
+      params: {
+        lawyerId: id,
+        ...(caseId ? { caseId } : {}),
+      },
     });
   };
 

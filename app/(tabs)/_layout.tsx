@@ -3,8 +3,8 @@ import { Home, MessageSquare, User } from 'lucide-react-native';
 import { useContext } from 'react';
 import { View } from 'react-native';
 import { COLORS } from '../../src/constants/colors';
-import { ReadStatusContext } from '../ReadStatusContext';
 import { LAWYERS } from '../../src/constants/data';
+import { ReadStatusContext } from '../../src/context/ReadStatusContext';
 import { common } from '../../src/styles/common';
 
 // Small unread badge shown on the Messages tab icon

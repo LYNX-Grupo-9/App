@@ -18,11 +18,11 @@ export default function SearchBar({
   placeholder,
 }: Props) {
   return (
-    <View style={common.searchBar}>
+    <View style={common.inputBar}>
       <Search color="#AAA" size={18} />
       <TextInput
         placeholder={placeholder}
-        style={common.searchInput}
+        style={common.input}
         value={value}
         onChangeText={onChange}
         placeholderTextColor="#AAA"

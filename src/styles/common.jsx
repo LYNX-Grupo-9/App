@@ -3,8 +3,6 @@ import { COLORS } from '../constants/colors';
 
 export const common = StyleSheet.create({
 
-  // ─── Layout ───────────────────────────────────────────────────────────────
-
   container: {
     flex: 1,
     backgroundColor: COLORS.white,
@@ -319,6 +317,63 @@ export const common = StyleSheet.create({
     fontWeight: 'bold',
   },
 
+  tagStatusYellow: {
+    backgroundColor: '#FFF8E1',
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 4,
+  },
+  
+  tagStatusGray: {
+    backgroundColor: '#F0F2F5',
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 4,
+  },
+  
+  tagStatusRed: {
+    backgroundColor: '#FFEBEE',
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 4,
+  },
+  
+  tagStatusBlue: {
+    backgroundColor: '#E3F2FD',
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 4,
+  },
+  
+  tagStatusTextGreen: {
+    fontSize: 10,
+    color: '#2E7D32',
+    fontWeight: 'bold',
+  },
+  
+  tagStatusTextYellow: {
+    fontSize: 10,
+    color: '#F57F17',
+    fontWeight: 'bold',
+  },
+  
+  tagStatusTextGray: {
+    fontSize: 10,
+    color: COLORS.gray,
+    fontWeight: 'bold',
+  },
+  
+  tagStatusTextRed: {
+    fontSize: 10,
+    color: '#C62828',
+    fontWeight: 'bold',
+  },
+  
+  tagStatusTextBlue: {
+    fontSize: 10,
+    color: COLORS.blue,
+    fontWeight: 'bold',
+  },
 
   // ─── Badge (unread count pill) ────────────────────────────────────────────
 
@@ -421,7 +476,7 @@ export const common = StyleSheet.create({
     lineHeight: 18,
   },
   cardAILink: {
-    color: COLORS.tealLight,
+    color: COLORS.white,
     fontWeight: 'bold',
     marginTop: 15,
   },
@@ -469,7 +524,7 @@ export const common = StyleSheet.create({
 
   // ─── Search bar ───────────────────────────────────────────────────────────
 
-  searchBar: {
+  inputBar: {
     flexDirection: 'row',
     backgroundColor: '#F0F2F5',
     margin: 20,
@@ -477,7 +532,7 @@ export const common = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
   },
-  searchInput: {
+  input: {
     flex: 1,
     marginLeft: 10,
   },
