@@ -154,7 +154,7 @@ export default function HomeTab() {
 
             <TouchableOpacity
               style={common.btnNewCase}
-            // onPress={() => router.push('/new-case')}
+              onPress={() => router.push('/new-case')}
             >
               <Text style={common.btnNewCaseText}>+ Novo caso</Text>
             </TouchableOpacity>

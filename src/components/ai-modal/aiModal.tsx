@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, View, Text, TouchableOpacity } from 'react-native';
+import { Modal, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Sparkles } from 'lucide-react-native';
 
 import { COLORS } from '../../constants/colors';
@@ -18,15 +18,18 @@ export default function AIModal({ visible, onClose, analysis }: Props) {
         <View style={common.modalBody}>
           <View style={common.modalHeader}>
             <Sparkles color={COLORS.blue} size={20} />
-
-            <Text style={common.modalTitle}>
-              Análise da IA
-            </Text>
+            <Text style={common.modalTitle}>Análise da IA</Text>
           </View>
 
-          <Text style={common.modalText}>
-            {analysis || 'Ainda não há uma análise disponível para este caso.'}
-          </Text>
+          <ScrollView
+            style={{ maxHeight: 380 }}
+            showsVerticalScrollIndicator={true}
+            contentContainerStyle={{ paddingRight: 4 }}
+          >
+            <Text style={common.modalText}>
+              {analysis || 'Ainda não há uma análise disponível para este caso.'}
+            </Text>
+          </ScrollView>
 
           <Text style={common.modalWarning}>
             Esta análise é automática e serve apenas para triagem inicial.

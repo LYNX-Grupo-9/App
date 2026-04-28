@@ -16,6 +16,7 @@ import DocumentRequestCard from '@/src/components/document-request-card/document
 import endpoints from '@/src/service/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ChatInput from '@/src/components/inputs/chat-input/chatInput';
+import AudioBubble from '@/src/components/audio-bubble/audioBubble';
 
 type ApiMessage = {
   idMensagem?: string;
@@ -24,6 +25,7 @@ type ApiMessage = {
   remetenteTipo: 'CLIENTE' | 'ADVOGADO';
   remetenteId: string;
   enviadoEm: string;
+  audioUri?: string;
 };
 
 type ApiConversation = {
@@ -48,40 +50,62 @@ export default function ChatScreen() {
   const [error, setError] = useState('');
   const hasDocumentRequest = false;
   async function handleSendMessage() {
-  if (!idConversa || !message.trim()) return;
+    if (!idConversa || !message.trim()) return;
 
-  try {
-    setSending(true);
+    try {
+      setSending(true);
 
-    const userId = await AsyncStorage.getItem('userId');
+      const userId = await AsyncStorage.getItem('userId');
 
-    if (!userId) throw new Error('Usuário não encontrado');
+      if (!userId) throw new Error('Usuário não encontrado');
 
-    const response = await endpoints.chat.sendMessage({
-      idConversa,
-      conteudo: message.trim(),
-      remetenteTipo: 'CLIENTE',
-      remetenteId: userId,
-    });
-
-    setMessages((prev) => [
-      ...prev,
-      response.data ?? {
-        id: String(Date.now()),
-        texto: message.trim(),
+      const response = await endpoints.chat.sendMessage({
+        idConversa,
         conteudo: message.trim(),
         remetenteTipo: 'CLIENTE',
-        dataEnvio: new Date().toISOString(),
+        remetenteId: userId,
+      });
+
+      setMessages((prev) => [
+        ...prev,
+        response.data ?? {
+          id: String(Date.now()),
+          texto: message.trim(),
+          conteudo: message.trim(),
+          remetenteTipo: 'CLIENTE',
+          dataEnvio: new Date().toISOString(),
+        },
+      ]);
+
+      setMessage('');
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setSending(false);
+    }
+  }
+
+  // handleSendAudio — adicione junto ao handleSendMessage
+  async function handleSendAudio(uri: string) {
+    const userId = await AsyncStorage.getItem('userId');
+    if (!userId) return;
+
+    // Adiciona localmente já — sem esperar API
+    setMessages((prev) => [
+      ...prev,
+      {
+        conteudo: '',
+        audioUri: uri,
+        remetenteTipo: 'CLIENTE',
+        remetenteId: userId,
+        enviadoEm: new Date().toISOString(),
       },
     ]);
 
-    setMessage('');
-  } catch (err) {
-    console.log(err);
-  } finally {
-    setSending(false);
+    // Opcional: transcrever e enviar via API
+    // const { data } = await endpoints.ai.transcreverAudio({ uri, name: 'audio.m4a', type: 'audio/m4a' });
+    // await endpoints.chat.sendMessage({ idConversa, conteudo: data.transcricao, ... });
   }
-}
 
   async function loadChat() {
     if (!idConversa) return;
@@ -150,28 +174,27 @@ export default function ChatScreen() {
             Nenhuma mensagem enviada ainda.
           </Text>
         ) : (
-          messages.map((message, index) => {
-            const isUserMessage =
-            message.remetenteTipo === 'CLIENTE';
+          messages.map((msg, index) => {
+            const isUser = msg.remetenteTipo === 'CLIENTE';
 
             return (
-              <View
-                key={message.id ?? `${message.dataEnvio ?? 'msg'}-${index}`}
-                style={isUserMessage ? common.bubbleRight : common.bubbleLeft}
-              >
-                <Text style={isUserMessage ? common.txtWhite : common.txtBlack}>
-                  {message.conteudo}
-                </Text>
-
-                <Text
-                  style={
-                    isUserMessage
-                      ? common.bubbleTimeWhite
-                      : common.bubbleTime
-                  }
-                >
-                {formatMessageTime(message.enviadoEm)}
-                </Text>
+              <View key={msg.idMensagem ?? `msg-${index}`}>
+                {msg.audioUri ? (
+                  <AudioBubble
+                    uri={msg.audioUri}
+                    isUser={isUser}
+                    time={formatMessageTime(msg.enviadoEm)}
+                  />
+                ) : (
+                  <View style={isUser ? common.bubbleRight : common.bubbleLeft}>
+                    <Text style={isUser ? common.txtWhite : common.txtBlack}>
+                      {msg.conteudo}
+                    </Text>
+                    <Text style={isUser ? common.bubbleTimeWhite : common.bubbleTime}>
+                      {formatMessageTime(msg.enviadoEm)}
+                    </Text>
+                  </View>
+                )}
               </View>
             );
           })
@@ -183,6 +206,7 @@ export default function ChatScreen() {
         value={message}
         onChangeText={setMessage}
         onSend={handleSendMessage}
+        onSendAudio={handleSendAudio} 
         disabled={sending}
       />
     </SafeAreaView>

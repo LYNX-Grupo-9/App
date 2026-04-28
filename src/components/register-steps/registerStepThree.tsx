@@ -9,13 +9,15 @@ import { COLORS } from "@/src/constants/colors";
 
 export function StepAnalise({
     area,
+    analise,
     onConfirm,
     onUpdate,
     isLoading,
 }: {
     area: string;
+    analise: string;
     onConfirm: () => void;
-    onUpdate: () => void;
+    onUpdate: (ajuste: string) => void;
     isLoading: boolean;
 }) {
     const [ajuste, setAjuste] = useState("");
@@ -36,12 +38,7 @@ export function StepAnalise({
                 </View>
 
                 <Text style={styles.resumoTitulo}>Resumo Jurídico Preliminar</Text>
-                <Text style={styles.resumoTexto}>
-                    O caso apresenta fortes indícios de{" "}
-                    <Text style={{ fontWeight: "bold" }}>rescisão indireta</Text> devido ao atraso
-                    reiterado no pagamento de salários e ausência de depósitos de FGTS por um período
-                    superior a 3 meses. A descrição sugere uma quebra contratual grave por parte do empregador.
-                </Text>
+                <Text style={styles.resumoTexto}>{analise}</Text>
 
                 <View style={styles.avisoRow}>
                     <Text style={styles.avisoText}>
@@ -64,7 +61,7 @@ export function StepAnalise({
 
             <SecondaryButton
                 title="Atualizar análise"
-                onPress={onUpdate}
+                onPress={() => { onUpdate(ajuste); setAjuste(''); }}
             />
 
             <MainButton
