@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   SafeAreaView,
@@ -48,7 +48,18 @@ export default function ChatScreen() {
   const [messages, setMessages] = useState<ApiMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const socketRef = useRef<WebSocket | null>(null);
   const hasDocumentRequest = false;
+
+  function appendMessage(newMessage: ApiMessage) {
+    setMessages((prev) => {
+      if (newMessage.idMensagem && prev.some((item) => item.idMensagem === newMessage.idMensagem)) {
+        return prev;
+      }
+
+      return [...prev, newMessage];
+    });
+  }
   async function handleSendMessage() {
     if (!idConversa || !message.trim()) return;
 
@@ -59,23 +70,36 @@ export default function ChatScreen() {
 
       if (!userId) throw new Error('Usuário não encontrado');
 
-      const response = await endpoints.chat.sendMessage({
+      const payload = {
         idConversa,
         conteudo: message.trim(),
-        remetenteTipo: 'CLIENTE',
+        remetenteTipo: 'CLIENTE' as const,
+      };
+
+      if (socketRef.current?.readyState === WebSocket.OPEN) {
+        socketRef.current.send(JSON.stringify({
+          type: 'SEND',
+          ...payload,
+        }));
+        setMessage('');
+        return;
+      }
+
+      const response = await endpoints.chat.sendMessage({
+        ...payload,
         remetenteId: userId,
       });
 
-      setMessages((prev) => [
-        ...prev,
+      appendMessage(
         response.data ?? {
-          id: String(Date.now()),
-          texto: message.trim(),
+          idMensagem: String(Date.now()),
+          idConversa,
           conteudo: message.trim(),
           remetenteTipo: 'CLIENTE',
-          dataEnvio: new Date().toISOString(),
-        },
-      ]);
+          remetenteId: userId,
+          enviadoEm: new Date().toISOString(),
+        }
+      );
 
       setMessage('');
     } catch (err) {
@@ -131,6 +155,50 @@ export default function ChatScreen() {
 
   useEffect(() => {
     loadChat();
+  }, [idConversa]);
+
+  useEffect(() => {
+    let active = true;
+
+    async function connectChatSocket() {
+      if (!idConversa) return;
+
+      const token = await AsyncStorage.getItem('token');
+      if (!token || !active) return;
+
+      const socket = new WebSocket(endpoints.chat.getWebSocketUrl(token));
+      socketRef.current = socket;
+
+      socket.onopen = () => {
+        socket.send(JSON.stringify({
+          type: 'SUBSCRIBE',
+          idConversa,
+        }));
+      };
+
+      socket.onmessage = (event) => {
+        try {
+          const payload = JSON.parse(event.data);
+          if (payload?.type === 'MESSAGE' && payload.data?.idConversa === idConversa) {
+            appendMessage(payload.data);
+          }
+        } catch (err) {
+          console.log('Erro ao processar mensagem do chat:', err);
+        }
+      };
+
+      socket.onerror = (event) => {
+        console.log('Erro no WebSocket do chat:', event);
+      };
+    }
+
+    connectChatSocket();
+
+    return () => {
+      active = false;
+      socketRef.current?.close();
+      socketRef.current = null;
+    };
   }, [idConversa]);
 
   const lawyerName =
