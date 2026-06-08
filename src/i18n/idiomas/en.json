@@ -1,0 +1,20 @@
+
+{
+    "home": {
+      "appName": "JurisMatch",
+      "greeting": "Hello, {{name}}",
+      "subtitle": "Check the progress of your cases today",
+      "cases": {
+        "sectionTitle": "My Cases",
+        "newCase": "+ New case",
+        "empty": "No cases registered yet."
+      },
+      "lawyers": {
+        "sectionTitle": "Interested lawyers",
+        "subtitle": "Lawyers who want to talk to you",
+        "empty": "No interested lawyers at the moment."
+      },
+      "loading": "Loading data...",
+      "error": "Could not load home screen data."
+    }
+  }

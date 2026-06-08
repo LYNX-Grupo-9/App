@@ -1,0 +1,19 @@
+{
+    "home": {
+      "appName": "JurisMatch",
+      "greeting": "Olá, {{name}}",
+      "subtitle": "Confira o andamento dos seus casos hoje",
+      "cases": {
+        "sectionTitle": "Meus Casos",
+        "newCase": "+ Novo caso",
+        "empty": "Nenhum caso cadastrado ainda."
+      },
+      "lawyers": {
+        "sectionTitle": "Advogados interessados",
+        "subtitle": "Advogados que desejam falar com você",
+        "empty": "Nenhum advogado interessado até o momento."
+      },
+      "loading": "Carregando dados...",
+      "error": "Não foi possível carregar os dados da tela inicial."
+    }
+  }

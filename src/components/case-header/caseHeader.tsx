@@ -2,13 +2,15 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 import { common } from '../../styles/common';
+import { CaseSuccessBar } from '../farol/farol';
 
 type Props = {
   status?: string;
   createdAt?: string;
+  probability?: number | null;
 };
 
-export default function CaseHeader({ status, createdAt }: Props) {
+export default function CaseHeader({ status, createdAt, probability }: Props) {
   return (
     <View style={common.rowSpaced}>
       <View style={getStatusStyle(status)}>
@@ -17,9 +19,12 @@ export default function CaseHeader({ status, createdAt }: Props) {
         </Text>
       </View>
 
-      <Text style={common.dateText}>
+      {/* <Text style={common.dateText}>
         {formatDate(createdAt)}
-      </Text>
+      </Text> */}
+        {probability !== null && probability !== undefined && (
+        <CaseSuccessBar probability={probability} />
+      )}
     </View>
   );
 }

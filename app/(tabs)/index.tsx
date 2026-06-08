@@ -20,6 +20,8 @@ import CaseCarouselCard from '@/src/components/case-carousel/caseCarousel';
 import LawyerListItem from '@/src/components/lawyer-list-item/lawyerListItem';
 import endpoints from '@/src/service/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTranslation } from 'react-i18next';
+import { LanguageToggle } from '@/src/components/changeLanguageButton';
 
 const { width } = Dimensions.get('window');
 type ApiCase = {
@@ -45,8 +47,9 @@ type ApiLawyer = {
   definitivo: boolean;
 };
 
-export default function HomeTab() {
 
+export default function HomeTab() {
+  const { t } = useTranslation();
   const router = useRouter();
   const [userName, setUserName] = useState('');
   const [cases, setCases] = useState<ApiCase[]>([]);
@@ -62,7 +65,7 @@ export default function HomeTab() {
       const name = await AsyncStorage.getItem('userName');
       const email = await AsyncStorage.getItem('userEmail');
       if (name) setUserName(name);
-   
+
     }
     loadUser();
   }, []);
@@ -112,7 +115,7 @@ export default function HomeTab() {
       setAllInterestedLawyers(Array.from(uniqueLawyersMap.values()));
     } catch (err) {
       console.log(err);
-      setError('Não foi possível carregar os dados da tela inicial.');
+      setError(t('home.error'));
     } finally {
       setLoading(false);
     }
@@ -127,7 +130,7 @@ export default function HomeTab() {
       <SafeAreaView style={common.container}>
         <View style={styles.center}>
           <ActivityIndicator size="large" color={COLORS.teal} />
-          <Text style={styles.loadingText}>Carregando dados...</Text>
+          <Text style={styles.loadingText}>{t('home.loading')}</Text>
         </View>
       </SafeAreaView>
     );
@@ -138,25 +141,26 @@ export default function HomeTab() {
       <StatusBar barStyle="dark-content" />
 
       <View style={common.headerHome}>
-        <Text style={common.logoText}>JurisMatch</Text>
-        <Bell color={COLORS.navy} size={24} />
+        <Text style={common.logoText}>{t('home.appName')}</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+          <LanguageToggle />
+          <Bell color={COLORS.navy} size={24} />
+        </View>
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={common.padding}>
-          <Text style={common.greeting}>Olá, {userName}</Text>
-          <Text style={common.subtitle}>
-            Confira o andamento dos seus casos hoje
-          </Text>
+          <Text style={common.greeting}>{t('home.greeting', { name: userName })}</Text>
+          <Text style={common.subtitle}>{t('home.subtitle')}</Text>
 
           <View style={common.rowSpaced}>
-            <Text style={common.sectionTitle}>Meus Casos</Text>
+            <Text style={common.sectionTitle}>{t('home.cases.sectionTitle')}</Text>
 
             <TouchableOpacity
               style={common.btnNewCase}
               onPress={() => router.push('/new-case')}
             >
-              <Text style={common.btnNewCaseText}>+ Novo caso</Text>
+              <Text style={common.btnNewCaseText}>{t('home.cases.newCase')}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -197,15 +201,11 @@ export default function HomeTab() {
           }}
         />
         <View style={common.padding}>
-          <Text style={common.sectionTitle}>Advogados interessados</Text>
-          <Text style={common.subtitle}>
-            Advogados que desejam falar com você
-          </Text>
+          <Text style={common.sectionTitle}>{t('home.lawyers.sectionTitle')}</Text>
+          <Text style={common.subtitle}>{t('home.lawyers.subtitle')}</Text>
 
           {allInterestedLawyers.length === 0 ? (
-            <Text style={styles.emptyText}>
-              Nenhum advogado interessado até o momento.
-            </Text>
+            <Text style={styles.emptyText}>{t('home.lawyers.empty')}</Text>
           ) : (
             allInterestedLawyers.map((item) => {
               const lawyer = item.advogado;

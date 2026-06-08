@@ -17,6 +17,7 @@ import AIModal from '@/src/components/ai-modal/aiModal';
 import SectionHeader from '@/src/components/section-header/sectionHeader';
 import CaseHeader from '@/src/components/case-header/caseHeader';
 import endpoints from '@/src/service/api';
+import { extractProbability } from '@/src/utils/parseIaAnalysis';
 
 type ApiCase = {
   dataCriacao: string;
@@ -61,6 +62,7 @@ export default function CaseDetailScreen() {
 
       setCaseData(caseResponse.data);
       setLawyers(lawyersResponse.data ?? []);
+   
     } catch (err) {
       console.log(err);
       setError('Não foi possível carregar os detalhes do caso.');
@@ -72,7 +74,7 @@ export default function CaseDetailScreen() {
   useEffect(() => {
     loadCaseDetail();
   }, [caseId]);
-
+  const probability = extractProbability(caseData?.analiseIa ?? '');
   if (loading) {
     return (
       <SafeAreaView style={common.container}>
@@ -94,10 +96,11 @@ export default function CaseDetailScreen() {
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
         {caseData && (
-          <CaseHeader
-            createdAt={caseData?.dataCriacao}
-            status={caseData.status}
-          />
+        <CaseHeader
+        createdAt={caseData?.dataCriacao}
+        status={caseData.status}
+        probability={probability}
+      />
         )}
 
         <AICard

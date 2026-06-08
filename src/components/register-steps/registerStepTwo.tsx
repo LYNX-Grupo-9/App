@@ -13,11 +13,16 @@ import { COLORS } from "@/src/constants/colors";
 import endpoints from "@/src/service/api";
 
 const AREAS = [
-  "Direito Trabalhista",
-  "Direito de Família",
+  "Direito do trabalho",
+  "Tecnologia e internet",
   "Direito do Consumidor",
-  "Direito Previdenciário",
+  "Previdenciário",
   "Direito Civil",
+  "Direito Penal",
+  "Saúde",
+  "Educação",
+  "Meio ambiente",
+  "Tributário"
 ];
 
 export function StepDescricao({
@@ -71,14 +76,12 @@ export function StepDescricao({
         type: "audio/m4a",
       });
 
-      // Anexa a transcrição ao texto já existente
       setDescricao(
         descricao
           ? `${descricao} ${data.transcricao}`
           : data.transcricao
       );
     } catch {
-      // silencioso — usuário pode digitar manualmente
     } finally {
       setTranscribing(false);
     }
