@@ -20,11 +20,12 @@ import endpoints from '@/src/service/api';
 import { extractProbability } from '@/src/utils/parseIaAnalysis';
 
 type ApiCase = {
-  dataCriacao: string;
   idCaso: string;
-  area: string;
+  areaDireito: string;
+  titulo: string;
   descricao: string;
-  status?: string;
+  status: string;
+  dataCriacao: string;
   analiseIa: string;
 };
 
@@ -78,7 +79,7 @@ export default function CaseDetailScreen() {
   if (loading) {
     return (
       <SafeAreaView style={common.container}>
-        <SectionHeader />
+      <SectionHeader title={caseData?.titulo ?? ''} />
 
         <View style={styles.center}>
           <ActivityIndicator size="large" color={COLORS.teal} />
@@ -90,7 +91,7 @@ export default function CaseDetailScreen() {
 
   return (
     <SafeAreaView style={common.container}>
-      <SectionHeader />
+      <SectionHeader title={caseData?.titulo ?? ''} />
 
       <ScrollView style={common.padding}>
         {error ? <Text style={styles.errorText}>{error}</Text> : null}

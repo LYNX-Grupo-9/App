@@ -1,23 +1,22 @@
 import { useRouter } from 'expo-router';
-import { Bell } from 'lucide-react-native';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
-  ActivityIndicator,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  View,
-  StyleSheet,
+    ActivityIndicator,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    View,
 } from 'react-native';
 
+import endpoints from '@/src/service/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import ConversationItem from '../../src/components/conversation-item/conversationItem';
 import EmptyState from '../../src/components/empty-state/emptyState';
 import FilterTabs from '../../src/components/filter-tabs/filterTabs';
 import SearchBar from '../../src/components/search-bar/searchBar';
 import { COLORS } from '../../src/constants/colors';
 import { common } from '../../src/styles/common';
-import endpoints from '@/src/service/api';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Conversation = {
   idConversa: string;
@@ -172,7 +171,7 @@ export default function ConversationsTab() {
     <SafeAreaView style={common.container}>
       <View style={common.headerSimple}>
         <Text style={common.screenTitle}>Conversas</Text>
-        <Bell color={COLORS.navy} size={24} />
+         
       </View>
 
       <SearchBar

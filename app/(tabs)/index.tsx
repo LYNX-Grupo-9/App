@@ -1,27 +1,26 @@
+import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-  View,
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  ScrollView,
-  SafeAreaView,
-  FlatList,
-  StatusBar,
-  Dimensions,
-  StyleSheet,
-  ActivityIndicator,
+  View,
 } from 'react-native';
-import { useRouter } from 'expo-router';
-import { Bell } from 'lucide-react-native';
 
-import { COLORS } from '../../src/constants/colors';
-import { common } from '../../src/styles/common';
 import CaseCarouselCard from '@/src/components/case-carousel/caseCarousel';
+import { LanguageToggle } from '@/src/components/changeLanguageButton';
 import LawyerListItem from '@/src/components/lawyer-list-item/lawyerListItem';
 import endpoints from '@/src/service/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
-import { LanguageToggle } from '@/src/components/changeLanguageButton';
+import { COLORS } from '../../src/constants/colors';
+import { common } from '../../src/styles/common';
 
 const { width } = Dimensions.get('window');
 type ApiCase = {
@@ -144,7 +143,7 @@ export default function HomeTab() {
         <Text style={common.logoText}>{t('home.appName')}</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
           <LanguageToggle />
-          <Bell color={COLORS.navy} size={24} />
+           
         </View>
       </View>
 

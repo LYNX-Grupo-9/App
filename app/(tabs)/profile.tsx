@@ -254,28 +254,6 @@ export default function ProfileTab() {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity style={common.menuItem}>
-            <View style={[common.menuIcon, styles.iconYellowBg]}>
-              <FileText color="#F57F17" size={20} />
-            </View>
-            <View style={styles.menuText}>
-              <Text style={common.menuItemTitle}>Meus documentos</Text>
-              <Text style={common.menuItemSubtitle}>Documentos enviados</Text>
-            </View>
-            <ChevronRight color="#CCC" size={18} />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={common.menuItem}>
-            <View style={[common.menuIcon, styles.iconPinkBg]}>
-              <Star color="#D4537E" size={20} />
-            </View>
-            <View style={styles.menuText}>
-              <Text style={common.menuItemTitle}>Minhas avaliações</Text>
-              <Text style={common.menuItemSubtitle}>Avaliações enviadas</Text>
-            </View>
-            <ChevronRight color="#CCC" size={18} />
-          </TouchableOpacity>
-
           <Text style={styles.sectionLabel}>ADVOGADOS RECENTES</Text>
 
           {recentLawyers.length === 0 ? (
@@ -327,40 +305,6 @@ export default function ProfileTab() {
               })}
             </ScrollView>
           )}
-
-          <Text style={styles.sectionLabel}>NOTIFICAÇÕES</Text>
-
-          <View style={common.menuItem}>
-            <View style={[common.menuIcon, styles.iconGrayBg]}>
-              <Bell color={COLORS.gray} size={20} />
-            </View>
-            <View style={styles.menuText}>
-              <Text style={common.menuItemTitle}>Notificações push</Text>
-              <Text style={common.menuItemSubtitle}>Avisos de novas mensagens</Text>
-            </View>
-            <Switch
-              value={pushEnabled}
-              onValueChange={setPushEnabled}
-              trackColor={{ false: '#DDD', true: COLORS.teal }}
-              thumbColor={COLORS.white}
-            />
-          </View>
-
-          <View style={[common.menuItem, styles.noBorder]}>
-            <View style={[common.menuIcon, styles.iconGrayBg]}>
-              <User color={COLORS.gray} size={20} />
-            </View>
-            <View style={styles.menuText}>
-              <Text style={common.menuItemTitle}>Resumo por e-mail</Text>
-              <Text style={common.menuItemSubtitle}>Receba atualizações semanais</Text>
-            </View>
-            <Switch
-              value={emailEnabled}
-              onValueChange={setEmailEnabled}
-              trackColor={{ false: '#DDD', true: COLORS.teal }}
-              thumbColor={COLORS.white}
-            />
-          </View>
 
           <TouchableOpacity style={styles.logoutBtn} onPress={signOut}>
             <Text style={styles.logoutText}>Sair da conta</Text>

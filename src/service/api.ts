@@ -1,7 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const BASE_URL = 'http://localhost:8083';
+const BASE_URL = 'http://localhost:8081';
 const AI_BASE_URL = 'http://localhost:8000'; // Python FastAPI microservice
 const getChatWebSocketUrl = (token: string) =>
   `${BASE_URL.replace(/^http/, 'ws')}/ws/chat?token=${encodeURIComponent(token)}`;

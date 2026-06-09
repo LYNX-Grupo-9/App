@@ -1,11 +1,9 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import {
-  Bell,
   FileText,
-  Folder,
   MessageSquare,
   Star,
-  Users,
+  Users
 } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import {
@@ -18,10 +16,11 @@ import {
   View,
 } from 'react-native';
 
+import endpoints from '@/src/service/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import GoBackButton from '../src/components/go-back/goback';
 import { COLORS } from '../src/constants/colors';
 import { common } from '../src/styles/common';
-import endpoints from '@/src/service/api';
 
 type ApiLawyerProfile = {
   idAdvogado?: string;
@@ -45,7 +44,6 @@ type ApiLawyerProfile = {
     text: string;
   }[];
 };
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function LawyerProfileScreen() {
@@ -140,7 +138,7 @@ export default function LawyerProfileScreen() {
       <SafeAreaView style={common.container}>
         <View style={common.headerSimple}>
           <GoBackButton />
-          <Bell color={COLORS.navy} size={24} />
+           
         </View>
 
         <View style={styles.center}>
@@ -156,7 +154,7 @@ export default function LawyerProfileScreen() {
       <SafeAreaView style={common.container}>
         <View style={common.headerSimple}>
           <GoBackButton />
-          <Bell color={COLORS.navy} size={24} />
+           
         </View>
 
         <View style={styles.center}>
@@ -186,7 +184,6 @@ export default function LawyerProfileScreen() {
     <SafeAreaView style={common.container}>
       <View style={common.headerSimple}>
         <GoBackButton />
-        <Bell color={COLORS.navy} size={24} />
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} style={common.padding}>
@@ -253,68 +250,6 @@ export default function LawyerProfileScreen() {
           <MessageSquare color={COLORS.white} size={20} />
           <Text style={styles.primaryBtnText}>Iniciar conversa</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity style={common.btnSecondary}>
-          <Folder color={COLORS.gray} size={20} />
-          <Text style={styles.secondaryBtnText}>Ver documentos</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={common.btnSecondary}
-          onPress={() =>
-            router.push({
-              pathname: '/rate',
-              params: { lawyerId: lawyerIdValue },
-            })
-          }
-        >
-          <Star color={COLORS.gray} size={20} />
-          <Text style={styles.secondaryBtnText}>Avaliar</Text>
-        </TouchableOpacity>
-
-        <View style={styles.reviewHeader}>
-          <Text style={common.sectionTitle}>Últimas Avaliações</Text>
-          <Text style={styles.viewAll}>Ver todas</Text>
-        </View>
-
-        {!lawyer.reviews || lawyer.reviews.length === 0 ? (
-          <Text style={styles.emptyText}>
-            Nenhuma avaliação disponível ainda.
-          </Text>
-        ) : (
-          lawyer.reviews.map((review, index) => (
-            <View key={`${review.name}-${index}`} style={styles.reviewCard}>
-              <View style={[common.avatarSm, { backgroundColor: COLORS.navy }]}>
-                <Text style={common.avatarInitialsSm}>
-                  {review.initials ?? getInitials(review.name)}
-                </Text>
-              </View>
-
-              <View style={styles.reviewContent}>
-                <View style={common.rowSpaced}>
-                  <Text style={styles.reviewerName}>{review.name}</Text>
-
-                  <View style={common.row}>
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <Star
-                        key={star}
-                        color={COLORS.star}
-                        fill={star <= review.rating ? COLORS.star : 'transparent'}
-                        size={10}
-                      />
-                    ))}
-                  </View>
-                </View>
-
-                <Text style={styles.reviewTime}>
-                  {review.timeAgo ?? 'Recentemente'}
-                </Text>
-
-                <Text style={styles.reviewText}>{review.text}</Text>
-              </View>
-            </View>
-          ))
-        )}
 
         <View style={styles.footerSpacing} />
       </ScrollView>

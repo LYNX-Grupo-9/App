@@ -59,11 +59,6 @@ export function StepAnalise({
                 textAlignVertical="top"
             />
 
-            <SecondaryButton
-                title="Atualizar análise"
-                onPress={() => { onUpdate(ajuste); setAjuste(''); }}
-            />
-
             <MainButton
                 title="Confirmar e buscar advogados →"
                 onPress={onConfirm}
