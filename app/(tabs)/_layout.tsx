@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Home, MessageSquare, User } from 'lucide-react-native';
+import { Home, MessageSquare, User, LayoutGrid } from 'lucide-react-native';
 import { useContext } from 'react';
 import { View } from 'react-native';
 import { COLORS } from '../../src/constants/colors';
@@ -7,7 +7,6 @@ import { LAWYERS } from '../../src/constants/data';
 import { ReadStatusContext } from '../../src/context/ReadStatusContext';
 import { common } from '../../src/styles/common';
 
-// Small unread badge shown on the Messages tab icon
 const UnreadBadge = () => {
   const { readIds } = useContext(ReadStatusContext);
   const count = LAWYERS.filter((l) => !readIds.includes(l.id)).length;
@@ -49,6 +48,13 @@ export default function TabsLayout() {
               <UnreadBadge />
             </View>
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="reports"
+        options={{
+          title: 'Relatórios',
+          tabBarIcon: ({ color, size }) => <LayoutGrid color={color} size={size} />,
         }}
       />
       <Tabs.Screen
