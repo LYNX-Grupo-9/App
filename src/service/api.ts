@@ -69,6 +69,19 @@ const caseEndpoints = {
 
   getInterestedLawyers: (id: string) =>
     api.get(`/api/casos/${id}/advogados-interessados`),
+
+  getDashboard: () =>
+    api.get<{
+      statusCasos: { total: number; emAndamento: number; aberto: number; encerrado: number };
+      casosPorArea: { area: string; quantidade: number }[];
+      historicoCasos: { mes: string; quantidade: number }[];
+      engajamentoPorCaso: {
+        processoId: string;
+        titulo: string;
+        area: string;
+        interessados: number;
+      }[];
+    }>('/api/clientes/dashboard'),
 };
 
 // ─── Advogados ────────────────────────────────────────────────────────────────

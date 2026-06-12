@@ -97,24 +97,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     try {
       // Adapte para o seu endpoint real de cadastro
-      const response = await endpoints.auth.register({ nome: name, email, senha: password, cpf});
-      const data = response.data;
-
-      const newUser: User = {
-        id:    data.id,
-        name:  data.nome,
-        email: data.email,
-        token: data.token,
-      };
-
-      await AsyncStorage.multiSet([
-        [STORAGE_KEYS.token,     newUser.token],
-        [STORAGE_KEYS.userId,    newUser.id],
-        [STORAGE_KEYS.userName,  newUser.name],
-        [STORAGE_KEYS.userEmail, newUser.email],
-      ]);
-
-      setUser(newUser);
+     await endpoints.auth.register({ nome: name, email, senha: password, cpf});
+  
     } finally {
       setIsLoading(false);
     }

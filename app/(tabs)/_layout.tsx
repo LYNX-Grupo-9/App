@@ -45,7 +45,6 @@ export default function TabsLayout() {
           tabBarIcon: ({ color, size }) => (
             <View>
               <MessageSquare color={color} size={size} />
-              <UnreadBadge />
             </View>
           ),
         }}

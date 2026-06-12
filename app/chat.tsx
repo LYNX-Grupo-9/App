@@ -126,9 +126,6 @@ export default function ChatScreen() {
       },
     ]);
 
-    // Opcional: transcrever e enviar via API
-    // const { data } = await endpoints.ai.transcreverAudio({ uri, name: 'audio.m4a', type: 'audio/m4a' });
-    // await endpoints.chat.sendMessage({ idConversa, conteudo: data.transcricao, ... });
   }
 
   async function loadChat() {
@@ -291,10 +288,21 @@ function getInitials(name: string) {
   return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
 }
 
-function formatMessageTime(date?: string) {
+function formatMessageTime(date?: string | number[]) {
   if (!date) return '';
 
-  const parsedDate = new Date(date);
+  let parsedDate: Date;
+
+  if (Array.isArray(date)) {
+    // [2026, 6, 10, 19, 15, 29, 421769000]
+    // Mês no JS é 0-indexed, no array vem 1-indexed
+    const [year, month, day, hour, minute, second] = date;
+    parsedDate = new Date(year, month - 1, day, hour, minute, second);
+  } else {
+    parsedDate = new Date(isNaN(Number(date)) ? date : Number(date));
+  }
+
+  if (isNaN(parsedDate.getTime())) return '--:--';
 
   return parsedDate.toLocaleTimeString('pt-BR', {
     hour: '2-digit',

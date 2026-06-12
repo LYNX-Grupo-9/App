@@ -2,8 +2,6 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import {
   FileText,
   MessageSquare,
-  Star,
-  Users
 } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import {
@@ -138,7 +136,7 @@ export default function LawyerProfileScreen() {
       <SafeAreaView style={common.container}>
         <View style={common.headerSimple}>
           <GoBackButton />
-           
+
         </View>
 
         <View style={styles.center}>
@@ -154,7 +152,7 @@ export default function LawyerProfileScreen() {
       <SafeAreaView style={common.container}>
         <View style={common.headerSimple}>
           <GoBackButton />
-           
+
         </View>
 
         <View style={styles.center}>
@@ -195,31 +193,16 @@ export default function LawyerProfileScreen() {
           </View>
 
           <Text style={common.nameHighlight}>{lawyerName}</Text>
-
-          <Text style={common.subtitleGray}>
-            {lawyer.registroOab ?? 'OAB não informada'}
-          </Text>
-
-          <View style={styles.ratingRow}>
-            <Star color={COLORS.star} fill={COLORS.star} size={18} />
-            <Text style={styles.ratingText}>
-              {rating}{' '}
-              <Text style={styles.reviewCount}>
-                ({totalReviews} avaliações)
-              </Text>
-            </Text>
-          </View>
         </View>
 
         <View style={common.cardImpact}>
           <View style={common.cardImpactIcon}>
-            <Users color={COLORS.navy} size={24} />
+            <FileText color={COLORS.navy} size={24} />
           </View>
-
           <View>
-            <Text style={styles.impactLabel}>IMPACTO</Text>
+            <Text style={styles.impactLabel}>REGISTRO</Text>
             <Text style={styles.impactValue}>
-              {clientsServed} clientes atendidos
+              {lawyer.registroOab ?? 'OAB não informada'}
             </Text>
           </View>
         </View>

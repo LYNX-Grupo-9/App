@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { COLORS } from '@/src/constants/colors';
 import GoBackButton from '@/src/components/go-back/goback';
@@ -9,23 +10,24 @@ import { StepDadosPessoais } from '@/src/components/register-steps/registerStepO
 import { StepDescricao } from '@/src/components/register-steps/registerStepTwo';
 import { StepAnalise } from '@/src/components/register-steps/registerStepThree';
 import endpoints from '@/src/service/api';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAuth } from '@/src/context/AuthContext';
 
 const TOTAL_STEPS = 3;
 
 export default function RegisterScreen() {
   const router = useRouter();
+  const { signUp, signIn } = useAuth();
   const [step, setStep] = useState(1);
 
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
-  const [cpf, setCpf] = useState('');
-  const [senha, setSenha] = useState('');
+  const [nome, setNome]         = useState('');
+  const [email, setEmail]       = useState('');
+  const [cpf, setCpf]           = useState('');
+  const [senha, setSenha]       = useState('');
 
-  const [area, setArea] = useState('');
+  const [area, setArea]         = useState('');
   const [descricao, setDescricao] = useState('');
-  const [titulo, setTitulo] = useState('');
-  const [analise, setAnalise] = useState('');
+  const [titulo, setTitulo]     = useState('');
+  const [analise, setAnalise]   = useState('');
 
   const [isLoadingAnalise, setIsLoadingAnalise] = useState(false);
   const [isLoadingCreate, setIsLoadingCreate]   = useState(false);
@@ -39,76 +41,53 @@ export default function RegisterScreen() {
     setIsLoadingAnalise(true);
     try {
       const { data } = await endpoints.ai.analisarCaso({ area, descricao });
-      const titulo = data.analise.match(/\*\*(.+?)\*\*/)?.[1] ?? 'Análise Jurídica'
-      setAnalise(data.analise); 
-      setTitulo(titulo);
+      const tituloExtraido = data.analise.match(/\*\*(.+?)\*\*/)?.[1] ?? 'Análise Jurídica';
+      setAnalise(data.analise);
+      setTitulo(tituloExtraido);
       setStep(3);
-    } catch (e: any) {
+    } catch {
       Alert.alert('Erro', 'Não foi possível analisar o caso. Tente novamente.');
     } finally {
       setIsLoadingAnalise(false);
     }
   }
 
-  // Step 3: cadastra o usuário
   async function handleConfirm() {
     setIsLoadingCreate(true);
-  
     try {
-      const registerResponse = await endpoints.auth.register({
-        nome,
-        email,
-        cpf,
-        senha,
-      });
-  
-      const loginResponse = await endpoints.auth.login({
-        email,
-        senha,
-      });
-  
-      const { token, id } = loginResponse.data;
-  
-      await AsyncStorage.setItem('token', token);
-      await AsyncStorage.setItem('userId', id);
-  
-      await handleRegisterCase(id);
-  
+      await signUp(nome, email, senha, cpf.replace(/\D/g, ''));
+      await signIn(email, senha);
+
+      const clienteId = await AsyncStorage.getItem('userId');
+      if (clienteId) {
+        await endpoints.cases.create({
+          areaDireito: area,
+          titulo,
+          descricao,
+          analiseIa: analise,
+          idCliente: clienteId,
+        });
+      }
+
       router.replace('/(tabs)');
     } catch (e: any) {
       console.log('Erro completo:', e?.response?.data ?? e);
-  
-      Alert.alert(
-        'Erro',
-        e?.response?.data?.message ?? 'Erro ao cadastrar.'
-      );
+      Alert.alert('Erro', e?.response?.data?.message ?? 'Erro ao cadastrar.');
     } finally {
       setIsLoadingCreate(false);
     }
-  }
-  
-  async function handleRegisterCase(clienteId: string) {
-    await endpoints.cases.create({
-      areaDireito: area,
-      titulo,
-      descricao,
-      analiseIa: analise,
-      idCliente: clienteId,
-    });
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <GoBackButton onPress={handleBack} color={COLORS.teal} />
-
         <View style={styles.progressWrapper}>
           <Text style={styles.stepLabel}>PASSO {step} DE {TOTAL_STEPS}</Text>
           <View style={styles.progressBar}>
             <View style={[styles.progressFill, { width: `${(step / TOTAL_STEPS) * 100}%` }]} />
           </View>
         </View>
-
         <Text style={styles.logo}>JurisMatch</Text>
       </View>
 
@@ -121,20 +100,18 @@ export default function RegisterScreen() {
           onNext={() => setStep(2)}
         />
       )}
-
       {step === 2 && (
         <StepDescricao
           area={area} setArea={setArea}
           descricao={descricao} setDescricao={setDescricao}
-          onNext={handleAnalise}    
-          isLoading={isLoadingAnalise}   
+          onNext={handleAnalise}
+          isLoading={isLoadingAnalise}
         />
       )}
-
       {step === 3 && (
         <StepAnalise
           area={area}
-          analise={analise}   
+          analise={analise}
           onConfirm={handleConfirm}
           onUpdate={setAnalise}
           isLoading={isLoadingCreate}

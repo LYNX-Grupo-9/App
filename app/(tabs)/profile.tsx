@@ -296,10 +296,6 @@ export default function ProfileTab() {
                     <Text style={common.recentLawyerArea} numberOfLines={1}>
                       {lawyer.area ?? lawyer.specialties?.[0] ?? 'Área'}
                     </Text>
-                    <View style={styles.row}>
-                      <Star color={COLORS.star} fill={COLORS.star} size={10} />
-                      <Text style={styles.ratingText}>{rating}</Text>
-                    </View>
                   </TouchableOpacity>
                 );
               })}

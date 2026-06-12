@@ -70,16 +70,29 @@ export default function ConversationItem({
           </Text>
         </View>
 
-        <Text
-          style={[
-            styles.message,
-            !isRead && styles.unreadMessage,
-          ]}
-          numberOfLines={1}
-        >
-          {preview?.text}
-        </Text>
-      </View>
+     
+
+          <Text
+            style={[
+              styles.message,
+              !isRead && styles.unreadMessage,
+            ]}
+            numberOfLines={1}
+          >
+            {preview?.text}
+          </Text>
+          <Text
+            style={[
+              styles.message,
+              styles.caseTitle,
+              !isRead && styles.unreadMessage,
+            ]}
+            numberOfLines={1}
+          >
+            {preview?.caseTitle}
+          </Text>
+        </View>
+
 
       {/* Badge */}
       {!isRead && (
@@ -129,7 +142,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: COLORS.gray,
     marginTop: 4,
+    
   },
+  caseTitle:{
+    color: COLORS.teal,
+    width: 200,
+    fontWeight: 700
+   },
+
   unreadMessage: {
     fontWeight: '600',
     color: '#333',

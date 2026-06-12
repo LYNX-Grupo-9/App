@@ -51,26 +51,14 @@ export default function ChatInput({ value, onChangeText, onSend, onSendAudio, di
         multiline
         editable={!disabled && !recording}
       />
-
-      {recording ? (
-        // Botão para parar a gravação
-        <TouchableOpacity style={[styles.btn, styles.btnRed]} onPress={stopRecording}>
-          <Square size={18} color={COLORS.white} />
-        </TouchableOpacity>
-      ) : value.trim() ? (
-        // Botão de enviar texto
+  
         <TouchableOpacity style={styles.btn} onPress={onSend} disabled={disabled}>
           {disabled
             ? <ActivityIndicator size="small" color={COLORS.white} />
             : <Send size={18} color={COLORS.white} />
           }
-        </TouchableOpacity>
-      ) : (
-        // Botão de microfone
-        <TouchableOpacity style={styles.btn} onPress={startRecording} disabled={disabled}>
-          <Mic size={18} color={COLORS.white} />
-        </TouchableOpacity>
-      )}
+        </TouchableOpacity> 
+      
     </View>
   );
 }
